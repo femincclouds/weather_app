@@ -4,6 +4,7 @@ import Landing from "./src/screens/landing/Landing";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Country from "./src/screens/country/Country";
+import Weather from "./src/screens/weather/Weather";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -12,6 +13,7 @@ export default function App() {
       <Stack.Navigator initialRouteName="Landing">
         <Stack.Screen name="Landing" component={Landing} />
         <Stack.Screen name="Country" component={Country} />
+        <Stack.Screen name="Weather" component={Weather} />
       </Stack.Navigator>
     </NavigationContainer>
   );

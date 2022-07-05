@@ -28,10 +28,10 @@ export const useAppState = create<IAppState>((set, get) => ({
 export const appStateSelectors = createSelectors(initialState);
 
 export interface IAppState {
-  countryDetails: ICountryDetails;
-  weatherDetails: IWeatherDetails;
-  setCountryDetails: (country: ICountryDetails) => void;
-  setWeatherDetails: (weather: IWeatherDetails) => void;
+  countryDetails: any;
+  weatherDetails: any;
+  setCountryDetails: (country: any) => void;
+  setWeatherDetails: (weather: any) => void;
 }
 
 export interface ICountryDetails {

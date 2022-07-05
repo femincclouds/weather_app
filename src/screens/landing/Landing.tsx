@@ -1,58 +1,50 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, TextInput, View, Button } from "react-native";
-import { Formik } from "formik";
 import axios from "axios";
-import { COUNTRY_API } from "@env";
+import { appStateSelectors, useAppState } from "../../state/Data";
+
+type State = {
+  country: string;
+};
 
 const Landing: React.FC = ({ navigation }: any) => {
-  const [country, setCountry] = useState("");
-  const onFormSubmit = async (values: IFormValues) => {
-    setCountry(values.country);
-    console.log("inside");
-    const res = await axios
-      .get(`https://restcountries.eu/rest/v2/name/${country}`)
+  const [data, setData] = useState<State>({ country: "" });
+  const setCountryData = useAppState(appStateSelectors.setCountryDetails);
+  const handleChange = (key: keyof State) => {
+    return (text: string) => {
+      setData({ ...data, [key]: text });
+    };
+  };
+
+  const handleSubmit = async () => {
+    await axios
+      .get(`https://restcountries.com/v3.1/name/${data.country}`)
       .then((response) => {
-        console.log(response);
+        setCountryData(response);
+        setData({ country: "" });
       })
       .catch((error) => {
         console.log(error);
       });
-    console.log("data---->>", res);
     navigation.navigate("Country");
   };
 
   return (
     <View style={styles.Container}>
       <Text style={styles.textStyle}>Enter Country</Text>
-
-      <Formik initialValues={{ country: "" }} onSubmit={onFormSubmit}>
-        {({ values, errors, touched, handleChange, handleSubmit }) => (
-          <View>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Enter country"
-              onChangeText={handleChange("country")}
-              value={values.country}
-            />
-            {errors.country && touched.country && errors.country}
-
-            <Button
-              disabled={values.country === ""}
-              title="Submit"
-              onPress={onFormSubmit}
-            />
-          </View>
-        )}
-      </Formik>
+      <TextInput
+        value={data.country}
+        onChangeText={handleChange("country")}
+        style={styles.textInput}
+        placeholder="Name"
+        placeholderTextColor="#2980b9"
+      />
+      <Button title="Submit" onPress={handleSubmit} />
     </View>
   );
 };
 
 export default Landing;
-
-interface IFormValues {
-  country: string;
-}
 
 const styles = StyleSheet.create({
   Container: {
@@ -72,9 +64,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ddd",
     borderRadius: 10,
-  },
-  buttonStyle: {
-    borderRadius: 10,
-    backgroundColor: "#2a9d8f",
   },
 });

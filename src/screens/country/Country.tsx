@@ -1,8 +1,9 @@
-import { View, StyleSheet, Text, Button, Pressable } from "react-native";
+import { View, StyleSheet, Text, Button, Pressable, Image } from "react-native";
 import React from "react";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import axios from "axios";
 import { WEATHER_API } from "@env";
+import { appStateSelectors, useAppState } from "../../state/Data";
 
 // type CountryScreenNavigationProp = NativeStackNavigationProp<
 //   RootStackParamList,
@@ -16,30 +17,38 @@ import { WEATHER_API } from "@env";
 // };
 
 const Country: React.FC = ({ navigation }: any) => {
+  const countryDetails = useAppState(appStateSelectors.countryDetails);
+  const setWeatherDetails = useAppState(appStateSelectors.setWeatherDetails);
+  const [data] = countryDetails.data;
+  const { capital } = data;
+  const { flags } = data;
+
   const handleCapitalWeather = async () => {
-    const res = await axios
+    await axios
       .get(
-        `http://api.weatherstack.com/current?
-          access_key=${WEATHER_API}&query=$delhi`
+        `http://api.weatherstack.com/current?access_key=${WEATHER_API}&query=${capital[0]}`
       )
       .then((response) => {
         console.log(response);
+        setWeatherDetails(response);
+        navigation.navigate("Weather");
       })
       .catch((error) => {
         console.log(error);
       });
-    console.log("weather----->>", res);
   };
   return (
     <View style={styles.containerStyle}>
       <Text style={styles.titleStyle}>Country details</Text>
       {/* information */}
       <View style={styles.countryDetails}>
-        <Text style={styles.keyStyle}>Capital:</Text>
-        <Text style={styles.keyStyle}>Population:</Text>
-        <Text style={styles.keyStyle}>Latlng:</Text>
+        <Text style={styles.keyStyle}>Capital: {capital[0]}</Text>
+        <Text style={styles.keyStyle}>Population: {data.population}</Text>
+        <Text style={styles.keyStyle}>
+          Latlng:{data.latlng[0]}, {data.latlng[1]}
+        </Text>
         <Text style={styles.keyStyle}>Flag:</Text>
-        <View></View>
+        <Image source={{ uri: flags.png }} style={styles.image} />
       </View>
       <Pressable style={styles.button} onPress={handleCapitalWeather}>
         <Text style={styles.text}>Capital Weather</Text>
@@ -59,7 +68,7 @@ const styles = StyleSheet.create({
   },
   titleStyle: {
     fontSize: 30,
-    margin: 10,
+    margin: 30,
   },
 
   keyStyle: {
@@ -86,5 +95,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     letterSpacing: 0.25,
     color: "white",
+  },
+  image: {
+    height: 150,
+    width: 200,
+    alignSelf: "center",
+    marginTop: 20,
   },
 });
