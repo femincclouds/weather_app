@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Text, StyleSheet, TextInput, View, Button } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  TextInput,
+  View,
+  Button,
+  Pressable,
+} from "react-native";
 import axios from "axios";
 import { appStateSelectors, useAppState } from "../../state/Data";
 
@@ -39,7 +46,9 @@ const Landing: React.FC = ({ navigation }: any) => {
         placeholder="Name"
         placeholderTextColor="#2980b9"
       />
-      <Button title="Submit" onPress={handleSubmit} />
+      <Pressable style={styles.button} onPress={handleSubmit}>
+        <Text style={styles.text}>Submit</Text>
+      </Pressable>
     </View>
   );
 };
@@ -54,15 +63,32 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textStyle: {
-    fontSize: 20,
+    fontSize: 30,
     color: "#000",
   },
   textInput: {
     fontSize: 16,
     padding: 10,
-    margin: 15,
+    margin: 35,
+    width: 300,
     borderWidth: 1,
     borderColor: "#ddd",
     borderRadius: 10,
+  },
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: "black",
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "white",
   },
 });
