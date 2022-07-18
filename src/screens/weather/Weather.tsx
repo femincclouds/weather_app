@@ -10,6 +10,8 @@ const Weather: React.FC = () => {
     <View style={styles.wrapper}>
       <Text style={styles.title}>Capital Weather</Text>
       <View style={styles.container}>
+        <Text style={styles.desc}>Wind Speed: {current.wind_speed}</Text>
+        <Text style={styles.desc}>Precip: {current.precip}</Text>
         <Text style={styles.desc}>
           Temperature: {current.temperature} degrees
         </Text>
@@ -17,8 +19,6 @@ const Weather: React.FC = () => {
           source={{ uri: current.weather_icons[0] }}
           style={styles.image}
         />
-        <Text style={styles.desc}>Wind Speed: {current.wind_speed}</Text>
-        <Text style={styles.desc}>Precip: {current.precip}</Text>
       </View>
     </View>
   );

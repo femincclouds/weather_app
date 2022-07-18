@@ -47,7 +47,6 @@ const Country: React.FC = ({ navigation }: any) => {
         <Text style={styles.keyStyle}>
           Latlng:{data.latlng[0]}, {data.latlng[1]}
         </Text>
-        <Text style={styles.keyStyle}>Flag:</Text>
         <Image source={{ uri: flags.png }} style={styles.image} />
       </View>
       <Pressable style={styles.button} onPress={handleCapitalWeather}>

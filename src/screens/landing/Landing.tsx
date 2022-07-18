@@ -46,7 +46,11 @@ const Landing: React.FC = ({ navigation }: any) => {
         placeholder="Name"
         placeholderTextColor="#2980b9"
       />
-      <Pressable style={styles.button} onPress={handleSubmit}>
+      <Pressable
+        style={data.country !== "" ? styles.button : styles.disabled}
+        disabled={data.country === ""}
+        onPress={handleSubmit}
+      >
         <Text style={styles.text}>Submit</Text>
       </Pressable>
     </View>
@@ -82,7 +86,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: "black",
+    backgroundColor: "#03045e",
+  },
+  disabled: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: "#023e8a",
   },
   text: {
     fontSize: 16,
